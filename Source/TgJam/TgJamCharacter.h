@@ -6,6 +6,9 @@
 #include "GameFramework/Character.h"
 #include "TgJamCharacter.generated.h"
 
+
+class UPlayerHealthSystem;
+class UInventoryComponent;
 UCLASS(config=Game)
 class ATgJamCharacter : public ACharacter
 {
@@ -44,12 +47,12 @@ protected:
 	 * @param Rate	This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
 	 */
 	void LookUpAtRate(float Rate);
+	
 
-	/** Handler for when a touch input begins. */
-	void TouchStarted(ETouchIndex::Type FingerIndex, FVector Location);
-
-	/** Handler for when a touch input stops. */
-	void TouchStopped(ETouchIndex::Type FingerIndex, FVector Location);
+	UPROPERTY(EditAnywhere,BlueprintReadOnly)
+	UPlayerHealthSystem* HealthSystem;
+	UPROPERTY(EditAnywhere,BlueprintReadOnly)
+	UInventoryComponent* InventoryComponent;
 
 protected:
 	// APawn interface
@@ -61,5 +64,6 @@ public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+	
 };
 

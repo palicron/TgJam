@@ -7,6 +7,9 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "PlayerComponent/HealthSystemComponent.h"
+#include "PlayerComponent/InventoryComponent.h"
+#include "PlayerComponent/PlayerHealthSystem.h"
 
 //////////////////////////////////////////////////////////////////////////
 // ATgJamCharacter
@@ -49,6 +52,9 @@ ATgJamCharacter::ATgJamCharacter()
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
+
+	HealthSystem = CreateDefaultSubobject<UPlayerHealthSystem>(TEXT("PlayerHealhSystem"));
+	InventoryComponent = CreateDefaultSubobject<UInventoryComponent>(TEXT("PlayerInventory"));
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -72,19 +78,7 @@ void ATgJamCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 	PlayerInputComponent->BindAxis("Look Up / Down Mouse", this, &APawn::AddControllerPitchInput);
 	PlayerInputComponent->BindAxis("Look Up / Down Gamepad", this, &ATgJamCharacter::LookUpAtRate);
 
-	// handle touch devices
-	PlayerInputComponent->BindTouch(IE_Pressed, this, &ATgJamCharacter::TouchStarted);
-	PlayerInputComponent->BindTouch(IE_Released, this, &ATgJamCharacter::TouchStopped);
-}
 
-void ATgJamCharacter::TouchStarted(ETouchIndex::Type FingerIndex, FVector Location)
-{
-	Jump();
-}
-
-void ATgJamCharacter::TouchStopped(ETouchIndex::Type FingerIndex, FVector Location)
-{
-	StopJumping();
 }
 
 void ATgJamCharacter::TurnAtRate(float Rate)
