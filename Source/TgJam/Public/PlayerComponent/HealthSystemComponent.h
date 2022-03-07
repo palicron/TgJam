@@ -61,7 +61,10 @@ public:
 	
 	virtual void Death();
 
+	UFUNCTION(BlueprintCallable,Category="HealthSystem")
 	void StarPlayerInvulnerability();
-
+	UFUNCTION(BlueprintCallable,Category="HealthSystem")
 	void EndPlayerInvulnerability();
+	UFUNCTION(BlueprintPure,Category="HealthSystem")
+	void GetComponentPercentage(float &healthPer ,float &ArmorPer );
 };

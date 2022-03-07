@@ -61,3 +61,9 @@ void UHealthSystemComponent::EndPlayerInvulnerability()
 	bPlayerCanBeDmg=true;
 }
 
+void UHealthSystemComponent::GetComponentPercentage(float& healthPer, float& ArmorPer)
+{
+	healthPer=(MaxHealth>0)?(CurrentHealth/MaxHealth):0.0f;
+	ArmorPer=(MaxArmor>0)?(CurrentArmor/MaxArmor):0.0f;
+}
+

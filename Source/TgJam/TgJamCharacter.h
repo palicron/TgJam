@@ -49,9 +49,9 @@ protected:
 	void LookUpAtRate(float Rate);
 	
 
-	UPROPERTY(EditAnywhere,BlueprintReadOnly)
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	UPlayerHealthSystem* HealthSystem;
-	UPROPERTY(EditAnywhere,BlueprintReadOnly)
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	UInventoryComponent* InventoryComponent;
 
 protected:
