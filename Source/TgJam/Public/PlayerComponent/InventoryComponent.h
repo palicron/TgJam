@@ -7,7 +7,7 @@
 #include "InventoryComponent.generated.h"
 
 UENUM(BlueprintType)
-enum ItemType
+enum class EItemType:uint8 
 {
 	HealthPotion UMETA(DisplayName = "Health potion"),
 	ArmorPlate UMETA(DisplayName = "Armor"),
