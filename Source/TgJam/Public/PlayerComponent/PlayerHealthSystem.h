@@ -17,5 +17,8 @@ class TGJAM_API UPlayerHealthSystem : public UHealthSystemComponent
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
+
+public:
+	virtual void AddArmor(int Armor) override;
 	
 };

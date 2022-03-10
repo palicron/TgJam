@@ -4,6 +4,7 @@
 #include "CoreActors/PickUpItemActor.h"
 #include "PlayerComponent/InventoryComponent.h"
 #include "Core/TJGameInstace.h"
+#include "Kismet/GameplayStatics.h"
 #include "TgJam/TgJamCharacter.h"
 
 // Sets default values
@@ -11,11 +12,11 @@ APickUpItemActor::APickUpItemActor()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
 	
 	SphereCol = CreateDefaultSubobject<USphereComponent>(TEXT("PickUpTrigger"));
-	SphereCol->SetSphereRadius(CollisionRadius);
 	SphereCol->OnComponentBeginOverlap.AddDynamic(this,&APickUpItemActor::OnOverlapBegin);
+	SphereCol->SetSphereRadius(CollisionRadius);
+
 	RootComponent = SphereCol;
 	ShowMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PickUpStaticMesh"));
 	ShowMesh->SetupAttachment(RootComponent);
@@ -28,14 +29,18 @@ APickUpItemActor::APickUpItemActor()
 void APickUpItemActor::BeginPlay()
 {
 	Super::BeginPlay();
-
+	GameInstanceRef = Cast<UTJGameInstace>(GetGameInstance());
+	PlayerRef = Cast<ATgJamCharacter>(UGameplayStatics::GetPlayerCharacter(this,0));;
+	InitPickUp();
 }
+
+
 
 // Called every frame
 void APickUpItemActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-   	GameInstanceRef = Cast<UTJGameInstace>(GetGameInstance());
+  
 
 }
 
@@ -69,7 +74,8 @@ void APickUpItemActor::InitPickUp(int32 ItemId)
 void APickUpItemActor::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
                                       UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	ATgJamCharacter* Player = Cast<ATgJamCharacter>(OtherActor);
+	//@TODO  Posible cambio ya que no funcinaria en multijugador
+	const ATgJamCharacter* Player = Cast<ATgJamCharacter>(OtherActor);
 	if(IsValid(Player))
 	{
 		OnItemPickUp();
@@ -82,6 +88,31 @@ void APickUpItemActor::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActo
 
 void APickUpItemActor::OnItemPickUp()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Player Pick up ") );
-}
+	if(IsValid(PlayerRef))
+	{
+		switch (PickUpType)
+		{
+		case EItemType::HealthPotion:
+			PlayerRef->AddPotionToPlayer();
+			break;
+		case EItemType::ArmorPlate:
+			PlayerRef->AddArmorToPlayer(10);
+			break;
+		case EItemType::Weapon: break;
+		case EItemType::MagicWeapone: break;
+		default: ;
+		}
 
+		DetroidPickUp();
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Bad Player set") );
+	}
+
+}
+void APickUpItemActor::DetroidPickUp()
+{
+
+	Destroy();
+}

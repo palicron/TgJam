@@ -29,15 +29,17 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 	
-	UPROPERTY(BlueprintReadWrite)
-	FPotionChange FOnPotionChangeEvent;
+	
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	UPROPERTY(BlueprintAssignable)
+	FPotionChange FOnPotionChangeEvent;
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Recovery Items")
 	int HealthPotion;
-	
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Recovery Items")
+	int MaxPotionCarry = 10;
     UFUNCTION(BlueprintCallable,Category="Recovery Items")
 	bool UseHealthPotion();
 	UFUNCTION(BlueprintCallable,Category="Recovery Items")
@@ -46,6 +48,7 @@ public:
 	void EquipiNewWepaone();
 	UFUNCTION(BlueprintCallable,Category="Weapone Items")
 	void UnEquipOldWeapone();
+
 
 	
 

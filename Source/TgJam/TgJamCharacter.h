@@ -6,6 +6,19 @@
 #include "GameFramework/Character.h"
 #include "TgJamCharacter.generated.h"
 
+USTRUCT(BlueprintType)
+struct FCharacterStats
+{
+	GENERATED_BODY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Current Stats")
+	int Strength;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Current Stats")
+	int Dexterity;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Current Stats")
+	int Constitution;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Current Stats")
+	int Intelligence;	
+};
 
 class UPlayerHealthSystem;
 class UInventoryComponent;
@@ -27,6 +40,10 @@ public:
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Input)
 	float TurnRateGamepad;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Current Stats")
+	FCharacterStats BaseStats;	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Current Stats")
+	FCharacterStats CurrentStats;	
 
 protected:
 
@@ -64,6 +81,12 @@ public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
+	UFUNCTION(BlueprintCallable,Category="Inventory functions")
+	void AddPotionToPlayer() const;
+
+	UFUNCTION(BlueprintCallable,Category="Inventory functions")
+	void AddArmorToPlayer(int ArmorValue) const;
 	
 };
 

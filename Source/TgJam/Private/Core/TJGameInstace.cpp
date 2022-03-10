@@ -3,6 +3,9 @@
 
 #include "Core/TJGameInstace.h"
 
+#include "Kismet/GameplayStatics.h"
+#include "TgJam/TgJamCharacter.h"
+
 FItemsStruct UTJGameInstace::GetItemById(const int32 Itemid)
 {
 	if(Items.Contains(Itemid))
@@ -13,4 +16,11 @@ FItemsStruct UTJGameInstace::GetItemById(const int32 Itemid)
 	{
 		return Items[-1];
 	}
+}
+
+void UTJGameInstace::Init()
+{
+	Super::Init();
+	PlayerRef =  Cast<ATgJamCharacter>(UGameplayStatics::GetPlayerCharacter(this,0));
+	
 }

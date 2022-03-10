@@ -10,6 +10,7 @@
  * 
  */
 
+
 USTRUCT(BlueprintType)
 struct FItemsStruct
 {	
@@ -19,16 +20,23 @@ struct FItemsStruct
 	UStaticMesh* RepresentMesh;
 	
 };
+class ATgJamCharacter;
 UCLASS()
 class TGJAM_API UTJGameInstace : public UGameInstance
 {
 	GENERATED_BODY()
 	
 public:
+
+	
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Items Map")
     TMap<float,FItemsStruct> Items;
 	UFUNCTION(BlueprintCallable)
 	FItemsStruct GetItemById(const int32 Itemid);
 	
+	UPROPERTY()
+	ATgJamCharacter* PlayerRef;
 	
+protected:
+	virtual void Init() override;
 };

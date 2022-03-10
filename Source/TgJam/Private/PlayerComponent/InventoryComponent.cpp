@@ -48,8 +48,16 @@ bool UInventoryComponent::UseHealthPotion()
 
 void UInventoryComponent::AddHealthPotion()
 {
-	HealthPotion++;
-	FOnPotionChangeEvent.Broadcast(true);
+	if(HealthPotion<MaxPotionCarry)
+	{
+		HealthPotion++;
+		FOnPotionChangeEvent.Broadcast(true);
+	}
+	else
+	{
+		UseHealthPotion();
+	}
+	
 }
 
 void UInventoryComponent::EquipiNewWepaone()

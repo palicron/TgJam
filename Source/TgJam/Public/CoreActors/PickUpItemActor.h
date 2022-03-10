@@ -10,6 +10,7 @@
 
 enum class EItemType:uint8;
 class UTJGameInstace;
+class ATgJamCharacter;
 UCLASS()
 class TGJAM_API APickUpItemActor : public AActor
 {
@@ -29,7 +30,10 @@ protected:
 	USphereComponent* SphereCol;
 	UPROPERTY()
 	UTJGameInstace* GameInstanceRef;
-	
+	UPROPERTY()
+	ATgJamCharacter* PlayerRef;
+	UFUNCTION()
+	void DetroidPickUp();
 
 public:	
 	// Called every frame
@@ -41,9 +45,10 @@ public:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Pick Up representation")
 	float CollisionRadius=100.0f;
 	UFUNCTION()
-	void InitPickUp(int32 ItemId );
+	void InitPickUp(int32 ItemId =1 );
+	
 	UFUNCTION()
-	virtual void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class
+	void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class
 		UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 	UFUNCTION()

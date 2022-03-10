@@ -81,6 +81,7 @@ void ATgJamCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 
 }
 
+
 void ATgJamCharacter::TurnAtRate(float Rate)
 {
 	// calculate delta for this frame from the rate information
@@ -121,3 +122,15 @@ void ATgJamCharacter::MoveRight(float Value)
 		AddMovementInput(Direction, Value);
 	}
 }
+
+void ATgJamCharacter::AddPotionToPlayer() const
+{
+		InventoryComponent->AddHealthPotion();
+}
+
+void ATgJamCharacter::AddArmorToPlayer(int ArmorValue) const
+{
+	HealthSystem->AddArmor(ArmorValue);
+}
+
+
